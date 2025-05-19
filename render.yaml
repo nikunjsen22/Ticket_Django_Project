@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: ticket-django-project
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: >
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate &&
+      gunicorn nikku.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: RENDER
+        value: true
+      - key: ALLOWED_HOSTS
+        value: .onrender.com,ticket-django-project-1.onrender.com
+
+databases:
+  - name: ticket_sqlite
+    databaseName: db.sqlite3
+    ipAllowList: [] # Only allow internal connections 
