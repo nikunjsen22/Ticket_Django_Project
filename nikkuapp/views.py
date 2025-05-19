@@ -129,8 +129,12 @@ def signup(request):
             mobile = data.get('mobile')
             role = data.get('role')
 
-            if not all([full_name, email, password, confirm_password, mobile, role]):
+            if not all([full_name, email, password, confirm_password, role]):
                 return JsonResponse({'error': 'All fields are required'}, status=400)
+
+            # Mobile is not required
+            if mobile is None:
+                mobile = ""
 
             try:
                 validate_email(email)
@@ -143,16 +147,20 @@ def signup(request):
             if CustomUser.objects.filter(email=email).exists():
                 return JsonResponse({'error': 'Email already exists'}, status=400)
 
-            hashed_password = make_password(password)
-            user = CustomUser.objects.create(
-                username=email,  # Set username same as email
-                email=email,
-                full_name=full_name,
-                password=hashed_password,
-                mobile=mobile,
-                role=role
-            )
-            return JsonResponse({'message': 'User registered successfully'}, status=201)
+            try:
+                hashed_password = make_password(password)
+                user = CustomUser(
+                    username=email,  # Set username same as email
+                    email=email,
+                    full_name=full_name,
+                    password=hashed_password,
+                    mobile=mobile,
+                    role=role
+                )
+                user.save()
+                return JsonResponse({'message': 'User registered successfully'}, status=201)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
 
         except json.JSONDecodeError:
             return JsonResponse({'error': 'Invalid JSON'}, status=400)

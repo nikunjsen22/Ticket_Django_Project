@@ -190,6 +190,11 @@
         Account created successfully! Redirecting to login...
     </div>
 
+    <!-- Error Toast -->
+    <div id="error-toast" class="fixed bottom-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300">
+        An error occurred during signup. Please try again.
+    </div>
+
     <script>
         // Toggle password visibility
         function togglePassword(inputId) {
@@ -281,12 +286,29 @@
                             window.location.href = '/login/';
                         }, 2000);
                     } else {
-                        // Show error message
-                        alert(data.error || 'An error occurred during signup');
+                        // Show error toast
+                        const errorToast = document.getElementById('error-toast');
+                        errorToast.textContent = data.error || 'An error occurred during signup. Please try again.';
+                        errorToast.style.opacity = '1';
+                        errorToast.style.transform = 'translateY(0)';
+                        
+                        // Hide error message after 3 seconds
+                        setTimeout(() => {
+                            errorToast.style.opacity = '0';
+                            errorToast.style.transform = 'translateY(20px)';
+                        }, 3000);
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('An error occurred during signup. Please try again.');
+                    const errorToast = document.getElementById('error-toast');
+                    errorToast.style.opacity = '1';
+                    errorToast.style.transform = 'translateY(0)';
+                    
+                    // Hide error message after 3 seconds
+                    setTimeout(() => {
+                        errorToast.style.opacity = '0';
+                        errorToast.style.transform = 'translateY(20px)';
+                    }, 3000);
                 }
             }
         });
