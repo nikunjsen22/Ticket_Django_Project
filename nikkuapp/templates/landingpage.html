@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SupportHub - Fast, Reliable Ticket Support</title>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-light: #93c5fd;
+      --primary-dark: #1d4ed8;
+      --white: #ffffff;
+      --light-gray: #f3f4f6;
+      --dark-gray: #4b5563;
+      --text: #1f2937;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      color: var(--text);
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header & Navigation */
+    header {
+      background-color: var(--white);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .logo span {
+      color: var(--text);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 30px;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .btn {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 160px 0 100px;
+      display: flex;
+      align-items: center;
+      background-color: var(--light-gray);
+      background-image: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+    }
+    
+    .hero-content {
+      flex: 1;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    
+    .hero h1 span {
+      color: var(--primary);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: var(--dark-gray);
+    }
+    
+    .hero-image {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .hero-image img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* How It Works Section */
+    .how-it-works {
+      padding: 100px 0;
+      background-color: var(--white);
+      text-align: center;
+    }
+    
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    
+    .section-subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 60px;
+      color: var(--dark-gray);
+    }
+    
+    .steps {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    
+    .step {
+      flex: 1;
+      min-width: 250px;
+      padding: 20px;
+      margin: 15px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+    
+    .step:hover {
+      transform: translateY(-10px);
+    }
+    
+    .step-icon {
+      width: 80px;
+      height: 80px;
+      background-color: var(--primary-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: var(--primary-dark);
+    }
+    
+    .step-icon i {
+      font-size: 2rem;
+    }
+    
+    .step h3 {
+      margin-bottom: 15px;
+      color: var(--text);
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 100px 0;
+      background-color: var(--light-gray);
+    }
+    
+    .features-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 50px;
+    }
+    
+    .feature {
+      width: 30%;
+      min-width: 300px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: flex-start;
+    }
+    
+    .feature-icon {
+      color: var(--primary);
+      font-size: 1.5rem;
+      margin-right: 15px;
+    }
+    
+    .feature-content h3 {
+      margin-bottom: 10px;
+    }
+    
+    /* FAQ Section */
+    .faq {
+      padding: 100px 0;
+      background-color: var(--white);
+    }
+    
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .faq-question {
+      background-color: var(--white);
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+    }
+    
+    .faq-question:hover {
+      background-color: var(--light-gray);
+    }
+    
+    .faq-answer {
+      padding: 0 20px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background-color: var(--light-gray);
+    }
+    
+    .faq-answer p {
+      padding: 20px 0;
+    }
+    
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+    }
+    
+    /* Testimonials Section */
+    .testimonials {
+      padding: 100px 0;
+      background-color: var(--light-gray);
+      text-align: center;
+    }
+    
+    .testimonial-list {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+    
+    .testimonial {
+      width: 30%;
+      min-width: 300px;
+      padding: 30px;
+      margin: 15px;
+      background-color: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .testimonial-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      overflow: hidden;
+    }
+    
+    .testimonial-image img {
+      width: 100%;
+      height: auto;
+    }
+    
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    
+    .testimonial-author {
+      font-weight: 600;
+    }
+    
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+    
+    /* CTA Section */
+    .cta {
+      padding: 100px 0;
+      background-color: var(--primary);
+      color: var(--white);
+      text-align: center;
+    }
+    
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .cta p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .btn-white {
+      background-color: var(--white);
+      color: var(--primary);
+    }
+    
+    .btn-white:hover {
+      background-color: var(--light-gray);
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--text);
+      color: var(--white);
+      padding: 60px 0 30px;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    
+    .footer-section {
+      width: 25%;
+      min-width: 250px;
+      margin-bottom: 30px;
+    }
+    
+    .footer-section h3 {
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+    
+    .footer-section ul {
+      list-style: none;
+    }
+    
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-section a {
+      color: var(--light-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-section a:hover {
+      color: var(--primary-light);
+    }
+    
+    .social-links {
+      display: flex;
+    }
+    
+    .social-links a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+    
+    .social-links a:hover {
+      background-color: var(--primary);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      color: var(--light-gray);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+      }
+      
+      .nav-links {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .nav-links li {
+        margin: 5px 15px;
+      }
+      
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 130px;
+      }
+      
+      .hero-content {
+        margin-bottom: 40px;
+      }
+      
+      .feature {
+        width: 100%;
+      }
+      
+      .testimonial {
+        width: 80%;
+      }
+      
+      .footer-section {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .social-links {
+        justify-content: center;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container">
+      <nav class="navbar">
+        <div class="logo">
+          <i class="fas fa-headset"></i> Support<span>Hub</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="{% url 'login' %}" class="btn btn-outline">Login</a></li>
+          <li><a href="{% url 'signup' %}" class="btn">SignUp</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Fast, Reliable <span>Ticket Support</span></h1>
+        <p>Support that listens and responds. Help your customers when they need it most.</p>
+      </div>
+      <div class="hero-image">
+        <img src="https://media.istockphoto.com/id/1454986819/photo/call-center-black-man-and-talking-for-customer-service-smile-and-headset-in-office.jpg?s=612x612&w=0&k=20&c=gPSYu_K0aZDhdKco3aOXUVjFKCqDpwIjUH2YMf1f2Sc=" alt="Happy customer talking to support">
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Get started with SupportHub in just three simple steps</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <h3>Sign Up</h3>
+          <p>Create your account in seconds. No credit card required to get started.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-ticket-alt"></i>
+          </div>
+          <h3>Create Ticket</h3>
+          <p>Submit your question or issue through our intuitive ticket system.</p>
+        </div>
+        
+        <div class="step">
+          <div class="step-icon">
+            <i class="fas fa-hands-helping"></i>
+          </div>
+          <h3>Get Help</h3>
+          <p>Receive prompt support from our dedicated team of experts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Key Features</h2>
+      <p class="section-subtitle">Everything you need for exceptional customer support</p>
+      
+      <div class="features-list">
+        <div class="feature">
+          <div class="feature-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Live Chat</h3>
+            <p>Connect with support agents in real-time when you need immediate assistance.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Email Updates</h3>
+            <p>Stay informed with automatic notifications about your ticket status.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Ticket History</h3>
+            <p>Access a complete record of all your previous support interactions.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Dashboard Analytics</h3>
+            <p>Monitor support metrics and performance with visual reports.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Mobile Friendly</h3>
+            <p>Access your support tickets from any device, anywhere, anytime.</p>
+          </div>
+        </div>
+        
+        <div class="feature">
+          <div class="feature-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="feature-content">
+            <h3>Secure & Private</h3>
+            <p>Your data is encrypted and protected with enterprise-level security.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Find quick answers to common questions</p>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">
+            How quickly will I get a response?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Most tickets receive an initial response within 1-2 hours during business hours. For priority issues, our response time is even faster — typically within 30 minutes.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Can I use SupportHub for my business?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Absolutely! SupportHub is designed for both individual users and businesses of all sizes. We offer scalable plans that grow with your needs.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            Is there a limit to how many tickets I can submit?
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Free accounts can submit up to 5 tickets per month. Our paid plans offer unlimited ticket submissions to accommodate all your support needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Our Clients Say</h2>
+      <p class="section-subtitle">Real feedback from real users</p>
+      
+      <div class="testimonial-list">
+        <div class="testimonial">
+          <div class="testimonial-image">
+            <img src="/api/placeholder/150/150" alt="Sarah Johnson">
+          </div>
+          <p class="testimonial-text">"SupportHub transformed how we handle customer inquiries. Response times dropped by 60% and customer satisfaction increased dramatically."</p>
+          <p class="testimonial-author">Sarah Johnson</p>
+          <p class="testimonial-role">Support Manager, TechStart Inc.</p>
+        </div>
+        
+        <div class="testimonial">
+          <div class="testimonial-image">
+            <img src="/api/placeholder/150/150" alt="David Chen">
+          </div>
+          <p class="testimonial-text">"As a small business owner, I needed an affordable solution that didn't sacrifice quality. SupportHub delivers exactly that and more."</p>
+          <p class="testimonial-author">David Chen</p>
+          <p class="testimonial-role">Owner, Bright Ideas Design</p>
+        </div>
+        
+        <div class="testimonial">
+          <div class="testimonial-image">
+            <img src="/api/placeholder/150/150" alt="Mia Rodriguez">
+          </div>
+          <p class="testimonial-text">"The ticket history feature is a game-changer. Being able to reference past solutions saves us countless hours every week."</p>
+          <p class="testimonial-author">Mia Rodriguez</p>
+          <p class="testimonial-role">IT Director, Global Connect</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="container">
+      <h2>Need Help? Start Now</h2>
+      <p>Join thousands of satisfied users who've simplified their support process with SupportHub.</p>
+      <a href="#" class="btn btn-white">Create Free Account</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>About SupportHub</h3>
+          <p>We're dedicated to making customer support simple, efficient, and effective for businesses of all sizes.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <ul>
+            <li><i class="fas fa-map-marker-alt"></i> 123 Support Street, Tech City</li>
+            <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+            <li><i class="fas fa-envelope"></i> help@supporthub.com</li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Connect With Us</h3>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 SupportHub. All rights reserved. <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simple FAQ accordion functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentNode;
+        
+        document.querySelectorAll('.faq-item').forEach(faqItem => {
+          if (faqItem !== item) {
+            faqItem.classList.remove('active');
+          }
+        });
+        
+        item.classList.toggle('active');
+      });
+    });
+    
+    // Sticky header
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      header.classList.toggle('sticky', window.scrollY > 0);
+    });
+  </script>
+
+</body>
+</html>

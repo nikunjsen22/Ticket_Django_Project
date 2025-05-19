@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SupportHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --gray-color: #6c757d;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .content {
+            padding: 20px;
+            flex: 1;
+        }
+
+        /* Settings Styles */
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .settings-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-body {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-label {
+            font-weight: 500;
+        }
+
+        .notification-description {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .settings-container {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <i class="fas fa-headset"></i>
+                <span>SupportHub</span>
+            </a>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="{% url 'landing_page' %}" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'dashboard' %}" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'tickets' %}" class="menu-item">
+                <i class="fas fa-ticket-alt"></i>
+                <span>Tickets</span>
+            </a>
+            <a href="{% url 'reports' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            <a href="{% url 'customers' %}" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <a href="{% url 'settings' %}" class="menu-item active">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="{% url 'help_center' %}" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>Help Center</span>
+            </a>
+            <a href="{% url 'logout' %}" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log Out</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Settings</h1>
+        </header>
+
+        <div class="content">
+            <div class="settings-container">
+                <!-- Profile Settings -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2 class="settings-title">
+                            <i class="fas fa-user"></i>
+                            Profile Settings
+                        </h2>
+                    </div>
+                    <div class="settings-body">
+                        <form id="profile-form">
+                            <div class="form-group">
+                                <label for="full-name" class="form-label">Full Name</label>
+                                <input type="text" id="full-name" class="form-control" value="{{ request.user.full_name }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" class="form-control" value="{{ request.user.email }}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile" class="form-label">Mobile Number</label>
+                                <input type="tel" id="mobile" class="form-control" value="{{ request.user.mobile }}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Password Settings -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2 class="settings-title">
+                            <i class="fas fa-lock"></i>
+                            Password Settings
+                        </h2>
+                    </div>
+                    <div class="settings-body">
+                        <form id="password-form">
+                            <div class="form-group">
+                                <label for="current-password" class="form-label">Current Password</label>
+                                <input type="password" id="current-password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password" class="form-label">New Password</label>
+                                <input type="password" id="new-password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password" class="form-label">Confirm New Password</label>
+                                <input type="password" id="confirm-password" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="settings-section">
+                    <div class="settings-header">
+                        <h2 class="settings-title">
+                            <i class="fas fa-bell"></i>
+                            Notification Settings
+                        </h2>
+                    </div>
+                    <div class="settings-body">
+                        <div class="notification-item">
+                            <div>
+                                <div class="notification-label">Email Notifications</div>
+                                <div class="notification-description">Receive email notifications for ticket updates</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div>
+                                <div class="notification-label">SMS Notifications</div>
+                                <div class="notification-description">Receive SMS notifications for urgent tickets</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-item">
+                            <div>
+                                <div class="notification-label">Browser Notifications</div>
+                                <div class="notification-description">Receive browser notifications for new tickets</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission handlers
+        document.getElementById('profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add profile update logic here
+            alert('Profile updated successfully!');
+        });
+
+        document.getElementById('password-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Add password update logic here
+            alert('Password updated successfully!');
+        });
+
+        // Notification toggle handlers
+        document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                // Add notification preference update logic here
+                const setting = this.closest('.notification-item').querySelector('.notification-label').textContent;
+                const status = this.checked ? 'enabled' : 'disabled';
+                console.log(`${setting} ${status}`);
+            });
+        });
+    </script>
+</body>
+</html> 

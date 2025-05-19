@@ -1,0 +1,79 @@
+# SupportHub - Ticket Management System
+
+A Django-based ticket management system that helps businesses handle customer support tickets efficiently.
+
+## Features
+
+- User Authentication (Admin, Agent, Customer roles)
+- Ticket Creation and Management
+- Real-time Notifications
+- Ticket Status Tracking
+- Admin Dashboard with Analytics
+- Customer Ticket History
+- Responsive Design
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/supporthub.git
+cd supporthub
+```
+
+2. Create a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+4. Run migrations:
+```bash
+python manage.py migrate
+```
+
+5. Create a superuser:
+```bash
+python manage.py createsuperuser
+```
+
+6. Run the development server:
+```bash
+python manage.py runserver
+```
+
+## Usage
+
+1. Access the application at `http://localhost:8000`
+2. Login with your credentials
+3. Create and manage tickets based on your role
+
+## Roles
+
+- **Admin**: Full access to all features, can manage users and tickets
+- **Agent**: Can handle and respond to tickets
+- **Customer**: Can create and track their tickets
+
+## Technologies Used
+
+- Django
+- HTML/CSS
+- JavaScript
+- SQLite (Development)
+- Font Awesome Icons
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License. 

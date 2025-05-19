@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Support Ticket</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1976d2;
+      --primary-light: #e3f2fd;
+      --primary-dark: #0d47a1;
+      --success-color: #4caf50;
+      --danger-color: #f44336;
+      --warning-color: #ff9800;
+      --info-color: #2196f3;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --gray-400: #ced4da;
+      --gray-500: #adb5bd;
+      --gray-600: #6c757d;
+      --gray-700: #495057;
+      --gray-800: #343a40;
+      --gray-900: #212529;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7f9;
+      color: var(--gray-800);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 1.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-header h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid var(--gray-300);
+      border-radius: 4px;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      outline: 0;
+      box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.25);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .priority-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .priority-option input[type="radio"] {
+      display: none;
+    }
+
+    .priority-option label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .priority-option input[type="radio"] + label {
+      background-color: var(--gray-100);
+      border: 1px solid var(--gray-300);
+    }
+
+    .priority-option input[type="radio"]:checked + label.low {
+      background-color: #e8f5e9;
+      border-color: var(--success-color);
+      color: var(--success-color);
+    }
+
+    .priority-option input[type="radio"]:checked + label.medium {
+      background-color: #fff8e1;
+      border-color: var(--warning-color);
+      color: #f57c00;
+    }
+
+    .priority-option input[type="radio"]:checked + label.high {
+      background-color: #ffebee;
+      border-color: var(--danger-color);
+      color: var(--danger-color);
+    }
+
+    .priority-option input[type="radio"]:checked + label.urgent {
+      background-color: #5c0011;
+      border-color: #7f0019;
+      color: white;
+    }
+
+    .file-upload {
+      border: 2px dashed var(--gray-300);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border-radius: 4px;
+      background-color: var(--gray-100);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .file-upload:hover, .file-upload.dragover {
+      border-color: var(--primary-color);
+      background-color: var(--primary-light);
+    }
+
+    .file-upload i {
+      font-size: 2rem;
+      color: var(--gray-500);
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-text {
+      color: var(--gray-600);
+    }
+
+    .upload-text strong {
+      color: var(--primary-color);
+    }
+
+    .file-list {
+      margin-top: 1rem;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      background-color: var(--gray-100);
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+    }
+
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .file-icon {
+      color: var(--primary-color);
+    }
+
+    .file-name {
+      font-size: 0.875rem;
+    }
+
+    .file-size {
+      font-size: 0.75rem;
+      color: var(--gray-600);
+    }
+
+    .remove-file {
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .remove-file:hover {
+      color: var(--danger-color);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--gray-300);
+      color: var(--gray-700);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--gray-100);
+    }
+
+    .confirmation {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background-color: #e8f5e9;
+      border-radius: 8px;
+      border-left: 4px solid var(--success-color);
+    }
+
+    .confirmation-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .confirmation-icon {
+      background-color: var(--success-color);
+      color: white;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .confirmation h2 {
+      font-size: 1.25rem;
+      color: var(--success-color);
+    }
+
+    .ticket-details {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+
+    .ticket-id {
+      font-family: 'Courier New', monospace;
+      background-color: #f1f8e9;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+      color: var(--success-color);
+    }
+
+    @media (max-width: 640px) {
+      .card-header {
+        padding: 1rem;
+      }
+
+      .card-body {
+        padding: 1rem;
+      }
+
+      .priority-group {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .priority-option label {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card" id="ticket-form">
+      <div class="card-header">
+        <i class="fas fa-ticket-alt"></i>
+        <h1>Create Support Ticket</h1>
+      </div>
+      <div class="card-body">
+        <form id="support-ticket-form">
+          <div class="form-group">
+            <label for="subject" class="form-label">Ticket Subject *</label>
+            <input type="text" id="subject" class="form-control" placeholder="Brief description of your issue" required>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="form-label">Description of the Issue *</label>
+            <textarea id="description" class="form-control" placeholder="Please provide detailed information about your issue" required></textarea>
+          </div>
+
+          <div class="form-row" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div class="form-group" style="flex: 1; min-width: 200px;">
+              <label for="category" class="form-label">Category *</label>
+              <select id="category" class="form-control" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="technical">Technical</option>
+                <option value="billing">Billing</option>
+                <option value="account">Account</option>
+                <option value="general">General</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="flex: 1; min-width: 200px;">
+              <label for="subcategory" class="form-label">Subcategory *</label>
+              <select id="subcategory" class="form-control" required disabled>
+                <option value="" disabled selected>Select a category first</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Priority *</label>
+            <div class="priority-group">
+              <div class="priority-option">
+                <input type="radio" name="priority" id="low" value="low" required>
+                <label for="low" class="low">
+                  <i class="fas fa-arrow-down"></i>
+                  Low
+                </label>
+              </div>
+              <div class="priority-option">
+                <input type="radio" name="priority" id="medium" value="medium">
+                <label for="medium" class="medium">
+                  <i class="fas fa-minus"></i>
+                  Medium
+                </label>
+              </div>
+              <div class="priority-option">
+                <input type="radio" name="priority" id="high" value="high">
+                <label for="high" class="high">
+                  <i class="fas fa-arrow-up"></i>
+                  High
+                </label>
+              </div>
+              <div class="priority-option">
+                <input type="radio" name="priority" id="urgent" value="urgent">
+                <label for="urgent" class="urgent">
+                  <i class="fas fa-exclamation-circle"></i>
+                  Urgent
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Attachments</label>
+            <div class="file-upload" id="file-drop-area">
+              <input type="file" id="file-input" multiple style="display: none;">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p class="upload-text">Drag & drop files here or <strong>browse</strong></p>
+              <p style="font-size: 0.8rem; color: var(--gray-500);">Max 5 files. Supported formats: PDF, PNG, JPG, DOC</p>
+            </div>
+            <div class="file-list" id="file-list"></div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn btn-outline" id="cancel-btn">
+              <i class="fas fa-times"></i>
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+              <i class="fas fa-paper-plane"></i>
+              Submit Ticket
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="confirmation" id="confirmation">
+      <div class="confirmation-header">
+        <div class="confirmation-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2>Ticket Successfully Created</h2>
+      </div>
+      <p>Your support ticket has been submitted. Our team will review your issue and get back to you soon.</p>
+      <div class="ticket-details">
+        <p><strong>Ticket ID:</strong> <span class="ticket-id" id="ticket-id">TKT-20250519-A7F2</span></p>
+        <p><strong>Subject:</strong> <span id="conf-subject"></span></p>
+        <p><strong>Category:</strong> <span id="conf-category"></span> / <span id="conf-subcategory"></span></p>
+        <p><strong>Priority:</strong> <span id="conf-priority"></span></p>
+        <p><strong>Submitted on:</strong> <span id="conf-date"></span></p>
+      </div>
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <button class="btn btn-primary" id="new-ticket-btn">
+          <i class="fas fa-plus"></i>
+          Create Another Ticket
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Define subcategories for each main category
+    const subcategories = {
+      technical: ['Software Issue', 'Hardware Problem', 'Network Error', 'Installation Help', 'Performance Issues'],
+      billing: ['Payment Failure', 'Invoice Question', 'Refund Request', 'Subscription Issue', 'Pricing Question'],
+      account: ['Login Problem', 'Password Reset', 'Account Access', 'Profile Update', 'Privacy Settings'],
+      general: ['Feature Request', 'Product Question', 'Documentation', 'Feedback', 'Other']
+    };
+
+    // DOM Elements
+    const form = document.getElementById('support-ticket-form');
+    const categorySelect = document.getElementById('category');
+    const subcategorySelect = document.getElementById('subcategory');
+    const fileDropArea = document.getElementById('file-drop-area');
+    const fileInput = document.getElementById('file-input');
+    const fileList = document.getElementById('file-list');
+    const submitBtn = document.getElementById('submit-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const ticketForm = document.getElementById('ticket-form');
+    const confirmation = document.getElementById('confirmation');
+    const newTicketBtn = document.getElementById('new-ticket-btn');
+    
+    // Populate subcategories based on selected category
+    categorySelect.addEventListener('change', function() {
+      const category = this.value;
+      subcategorySelect.innerHTML = '';
+      subcategorySelect.disabled = false;
+      
+      if (subcategories[category]) {
+        subcategories[category].forEach(sub => {
+          const option = document.createElement('option');
+          option.value = sub.toLowerCase().replace(/\s+/g, '-');
+          option.textContent = sub;
+          subcategorySelect.appendChild(option);
+        });
+      }
+    });
+
+    // File Upload Functionality
+    fileDropArea.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', handleFiles);
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      fileDropArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      fileDropArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      fileDropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight() {
+      fileDropArea.classList.add('dragover');
+    }
+
+    function unhighlight() {
+      fileDropArea.classList.remove('dragover');
+    }
+
+    fileDropArea.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      handleFiles(files);
+    }
+
+    function handleFiles(files) {
+      if(files instanceof FileList) {
+        // Real file objects from upload
+        if(document.querySelectorAll('.file-item').length + files.length > 5) {
+          alert('Maximum 5 files allowed');
+          return;
+        }
+        
+        [...files].forEach(file => {
+          addFileToList(file);
+        });
+      } else {
+        // Event from input change
+        if(document.querySelectorAll('.file-item').length + fileInput.files.length > 5) {
+          alert('Maximum 5 files allowed');
+          return;
+        }
+        
+        [...fileInput.files].forEach(file => {
+          addFileToList(file);
+        });
+      }
+    }
+
+    function addFileToList(file) {
+      const fileItem = document.createElement('div');
+      fileItem.className = 'file-item';
+      
+      // Format file size
+      let fileSize;
+      if(file.size < 1024) {
+        fileSize = file.size + ' bytes';
+      } else if(file.size < 1024 * 1024) {
+        fileSize = (file.size / 1024).toFixed(1) + ' KB';
+      } else {
+        fileSize = (file.size / (1024 * 1024)).toFixed(1) + ' MB';
+      }
+      
+      fileItem.innerHTML = `
+        <div class="file-info">
+          <i class="fas fa-file file-icon"></i>
+          <div>
+            <div class="file-name">${file.name}</div>
+            <div class="file-size">${fileSize}</div>
+          </div>
+        </div>
+        <i class="fas fa-times remove-file"></i>
+      `;
+      
+      const removeBtn = fileItem.querySelector('.remove-file');
+      removeBtn.addEventListener('click', () => {
+        fileItem.remove();
+      });
+      
+      fileList.appendChild(fileItem);
+    }
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Simple validation
+      if(!validateForm()) {
+        return;
+      }
+      
+      // Simulate form submission with loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+      
+      setTimeout(() => {
+        // Populate confirmation details
+        document.getElementById('conf-subject').textContent = document.getElementById('subject').value;
+        document.getElementById('conf-category').textContent = document.getElementById('category').options[document.getElementById('category').selectedIndex].text;
+        document.getElementById('conf-subcategory').textContent = document.getElementById('subcategory').options[document.getElementById('subcategory').selectedIndex].text;
+        
+        const priorityId = document.querySelector('input[name="priority"]:checked').id;
+        document.getElementById('conf-priority').textContent = priorityId.charAt(0).toUpperCase() + priorityId.slice(1);
+        
+        const now = new Date();
+        document.getElementById('conf-date').textContent = now.toLocaleString();
+        
+        // Generate random ticket ID
+        const ticketId = 'TKT-' + now.getFullYear().toString().substr(-2) + 
+                         padZero(now.getMonth() + 1) + 
+                         padZero(now.getDate()) + '-' + 
+                         randomString(4);
+        document.getElementById('ticket-id').textContent = ticketId;
+        
+        // Show confirmation and hide form
+        ticketForm.style.display = 'none';
+        confirmation.style.display = 'block';
+        
+        // Scroll to top of confirmation
+        window.scrollTo({ top: confirmation.offsetTop - 20, behavior: 'smooth' });
+      }, 1500);
+    });
+
+    function validateForm() {
+      // Just a simple validation example
+      let valid = true;
+      
+      const requiredFields = ['subject', 'description', 'category', 'subcategory'];
+      requiredFields.forEach(field => {
+        const element = document.getElementById(field);
+        if(!element.value) {
+          element.classList.add('error');
+          valid = false;
+        } else {
+          element.classList.remove('error');
+        }
+      });
+      
+      if(!document.querySelector('input[name="priority"]:checked')) {
+        valid = false;
+        // Could add some visual error for radio buttons
+      }
+      
+      if(!valid) {
+        alert('Please fill in all required fields.');
+      }
+      
+      return valid;
+    }
+
+    // Reset button functionality
+    cancelBtn.addEventListener('click', function() {
+      if(confirm('Are you sure you want to cancel? All entered information will be lost.')) {
+        form.reset();
+        fileList.innerHTML = '';
+        subcategorySelect.innerHTML = '<option value="" disabled selected>Select a category first</option>';
+        subcategorySelect.disabled = true;
+      }
+    });
+
+    // New ticket button functionality
+    newTicketBtn.addEventListener('click', function() {
+      confirmation.style.display = 'none';
+      ticketForm.style.display = 'block';
+      form.reset();
+      fileList.innerHTML = '';
+      subcategorySelect.innerHTML = '<option value="" disabled selected>Select a category first</option>';
+      subcategorySelect.disabled = true;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Ticket';
+    });
+
+    // Utility functions
+    function padZero(num) {
+      return num.toString().padStart(2, '0');
+    }
+
+    function randomString(length) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+  </script>
+</body>
+</html>

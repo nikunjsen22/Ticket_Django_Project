@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets - SupportHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --gray-color: #6c757d;
+            --sidebar-width: 250px;
+            --header-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left-color: var(--primary-color);
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .content {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .page-title {
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        /* Tickets Table Styles */
+        .tickets-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        .tickets-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .tickets-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .tickets-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .tickets-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tickets-table th,
+        .tickets-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tickets-table th {
+            font-weight: 600;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .tickets-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+
+        .priority-high {
+            color: var(--danger-color);
+        }
+
+        .priority-medium {
+            color: var(--warning-color);
+        }
+
+        .priority-low {
+            color: var(--success-color);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-open {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-inprogress {
+            background-color: rgba(243, 156, 18, 0.1);
+            color: var(--warning-color);
+        }
+
+        .status-resolved {
+            background-color: rgba(46, 204, 113, 0.1);
+            color: var(--success-color);
+        }
+
+        .view-ticket {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .view-ticket:hover {
+            text-decoration: underline;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .tickets-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="{% url 'dashboard' %}" class="logo">
+                <i class="fas fa-headset"></i>
+                <span>SupportHub</span>
+            </a>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="{% url 'landing_page' %}" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'dashboard' %}" class="menu-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'tickets' %}" class="menu-item active">
+                <i class="fas fa-ticket-alt"></i>
+                <span>Tickets</span>
+            </a>
+            <a href="{% url 'reports' %}" class="menu-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Reports</span>
+            </a>
+            <a href="{% url 'customers' %}" class="menu-item">
+                <i class="fas fa-users"></i>
+                <span>Customers</span>
+            </a>
+            <a href="{% url 'settings' %}" class="menu-item">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="{% url 'help_center' %}" class="menu-item">
+                <i class="fas fa-question-circle"></i>
+                <span>Help Center</span>
+            </a>
+            <a href="{% url 'logout' %}" class="menu-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Log Out</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header class="header">
+            <h1>Tickets</h1>
+        </header>
+
+        <div class="content">
+            <div class="tickets-container">
+                <div class="tickets-header">
+                    <h2 class="tickets-title">All Tickets</h2>
+                    <div class="tickets-actions">
+                        <a href="{% url 'create_ticket' %}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            New Ticket
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="status">Status:</label>
+                        <select id="status">
+                            <option value="all">All</option>
+                            <option value="open">Open</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="priority">Priority:</label>
+                        <select id="priority">
+                            <option value="all">All</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tickets Table -->
+                <table class="tickets-table">
+                    <thead>
+                        <tr>
+                            <th>Ticket ID</th>
+                            <th>Subject</th>
+                            <th>Created By</th>
+                            <th>Created Date</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                        <tr>
+                            <td>#{{ ticket.id }}</td>
+                            <td>{{ ticket.title }}</td>
+                            <td>{{ ticket.created_by.full_name }}</td>
+                            <td>{{ ticket.created_at|date:"M d, Y" }}</td>
+                            <td>
+                                <span class="priority-{{ ticket.priority }}">
+                                    {{ ticket.priority|title }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="status-pill status-{{ ticket.status }}">
+                                    {{ ticket.status|title }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="#" class="view-ticket">View</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" style="text-align: center;">No tickets found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add any JavaScript functionality here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter functionality
+            const statusFilter = document.getElementById('status');
+            const priorityFilter = document.getElementById('priority');
+
+            function applyFilters() {
+                const status = statusFilter.value;
+                const priority = priorityFilter.value;
+                const rows = document.querySelectorAll('.tickets-table tbody tr');
+
+                rows.forEach(row => {
+                    const rowStatus = row.querySelector('.status-pill').textContent.toLowerCase();
+                    const rowPriority = row.querySelector('.priority-high, .priority-medium, .priority-low').textContent.toLowerCase();
+
+                    const statusMatch = status === 'all' || rowStatus === status;
+                    const priorityMatch = priority === 'all' || rowPriority === priority;
+
+                    row.style.display = statusMatch && priorityMatch ? '' : 'none';
+                });
+            }
+
+            statusFilter.addEventListener('change', applyFilters);
+            priorityFilter.addEventListener('change', applyFilters);
+        });
+    </script>
+</body>
+</html> 

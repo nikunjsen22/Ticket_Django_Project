@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Ticket Support System - Sign Up</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        }
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <svg class="h-8 w-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+                <span class="ml-2 text-xl font-semibold text-gray-800">TicketPro</span>
+            </div>
+            <div>
+                <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Already have an account? Login →</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center py-10 px-4">
+        <div class="w-full max-w-md">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="px-6 py-8">
+                    <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">Create Your Account</h1>
+                    <p class="text-center text-gray-600 mb-8">Join TicketPro to manage and track your support tickets</p>
+                    
+                    <!-- Social Sign Up Buttons -->
+                    <div class="flex flex-col space-y-3 mb-6">
+                        <button class="flex items-center justify-center py-2 px-4 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                            <svg class="h-5 w-5 mr-2" viewBox="0 0 24 24">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                            </svg>
+                            Sign up with Google
+                        </button>
+                        <div class="relative flex items-center my-4">
+                            <div class="flex-grow border-t border-gray-300"></div>
+                            <span class="flex-shrink mx-4 text-gray-500 text-sm">or sign up with email</span>
+                            <div class="flex-grow border-t border-gray-300"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sign Up Form -->
+                    <form id="signup-form">
+                        <div class="space-y-4">
+                            <!-- Full Name -->
+                            <div>
+                                <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <div class="relative">
+                                    <input type="text" id="fullName" name="fullName" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="John Doe" required>
+                                </div>
+                                <p id="fullName-error" class="mt-1 text-sm text-red-600 hidden">Please enter your full name</p>
+                            </div>
+                            
+                            <!-- Email Address -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <div class="relative">
+                                    <input type="email" id="email" name="email" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="john.doe@example.com" required>
+                                </div>
+                                <p id="email-error" class="mt-1 text-sm text-red-600 hidden">Please enter a valid email address</p>
+                            </div>
+                            
+                            <!-- Mobile Number (Optional) -->
+                            <div>
+                                <label for="mobile" class="block text-sm font-medium text-gray-700 mb-1">Mobile Number <span class="text-gray-500">(Optional)</span></label>
+                                <div class="relative">
+                                    <input type="tel" id="mobile" name="mobile" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="+1 (555) 123-4567">
+                                </div>
+                            </div>
+                            
+                            <!-- Password -->
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <div class="relative">
+                                    <input type="password" id="password" name="password" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="••••••••" required>
+                                    <span class="password-toggle" onclick="togglePassword('password')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <p id="password-error" class="mt-1 text-sm text-red-600 hidden">Password must be at least 8 characters</p>
+                            </div>
+                            
+                            <!-- Confirm Password -->
+                            <div>
+                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                <div class="relative">
+                                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="••••••••" required>
+                                    <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                <p id="confirmPassword-error" class="mt-1 text-sm text-red-600 hidden">Passwords don't match</p>
+                            </div>
+                            
+                            <!-- User Role -->
+                            <div>
+                                <label for="userRole" class="block text-sm font-medium text-gray-700 mb-1">User Role</label>
+                                <div class="relative">
+                                    <select id="userRole" name="userRole" class="form-input block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 appearance-none">
+                                        <option value="customer" selected>Customer</option>
+                                        <option value="agent">Agent</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Terms Checkbox -->
+                            <div class="flex items-start mt-4">
+                                <div class="flex items-center h-5">
+                                    <input id="terms" name="terms" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" required>
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="terms" class="text-gray-700">I agree to the <a href="#" class="text-blue-600 hover:underline">Terms of Use</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a></label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="mt-6">
+                            <button type="submit" id="submit-btn" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium">
+                                Create Account
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Login Link -->
+                    <div class="text-center mt-6">
+                        <p class="text-sm text-gray-600">
+                            Already have an account? 
+                            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">Login here</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <svg class="h-6 w-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                    </svg>
+                    <span class="ml-2 text-lg font-semibold text-gray-800">TicketPro</span>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Terms of Service</a>
+                    <a href="#" class="text-gray-600 hover:text-gray-900">Contact Us</a>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-center text-gray-500 text-sm">© 2025 TicketPro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Success Toast -->
+    <div id="success-toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300">
+        Account created successfully! Redirecting to login...
+    </div>
+
+    <script>
+        // Toggle password visibility
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const icon = passwordInput.nextElementSibling.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Form validation
+        document.getElementById('signup-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset errors
+            document.querySelectorAll('.text-red-600').forEach(el => el.classList.add('hidden'));
+            
+            // Get form elements
+            const fullName = document.getElementById('fullName');
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const mobile = document.getElementById('mobile');
+            const userRole = document.getElementById('userRole');
+            const terms = document.getElementById('terms');
+            
+            let isValid = true;
+            
+            // Validate full name
+            if (fullName.value.trim() === '') {
+                document.getElementById('fullName-error').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                document.getElementById('email-error').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate password
+            if (password.value.length < 8) {
+                document.getElementById('password-error').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // Validate confirm password
+            if (password.value !== confirmPassword.value) {
+                document.getElementById('confirmPassword-error').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            // If form is valid, submit to backend
+            if (isValid) {
+                try {
+                    const response = await fetch('/signup/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            full_name: fullName.value.trim(),
+                            email: email.value.trim(),
+                            password: password.value,
+                            confirm_password: confirmPassword.value,
+                            mobile: mobile.value.trim(),
+                            role: userRole.value
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Show success message
+                        const toast = document.getElementById('success-toast');
+                        toast.style.opacity = '1';
+                        toast.style.transform = 'translateY(0)';
+                        
+                        // Redirect to login page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = '/login/';
+                        }, 2000);
+                    } else {
+                        // Show error message
+                        alert(data.error || 'An error occurred during signup');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred during signup. Please try again.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
