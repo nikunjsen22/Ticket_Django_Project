@@ -2,10 +2,10 @@ services:
   - type: web
     name: ticket-django-project
     env: python
-    buildCommand: >
-      pip install -r requirements.txt &&
-      python setup_db.py
+    buildCommand: pip install -r requirements.txt
     startCommand: >
+      cd /opt/render/project/src &&
+      python setup_db.py &&
       python manage.py collectstatic --noinput &&
       gunicorn nikku.wsgi:application
     envVars:
